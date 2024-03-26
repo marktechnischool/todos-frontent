@@ -5,7 +5,7 @@ function App() {
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:3123/todos")
+    fetch(`${BASE_API_URL}/todos`)
       .then(resp => resp.json())
       .then(data => {
         setTodos(data)
