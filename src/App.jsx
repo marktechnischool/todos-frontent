@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import AddTodo from './components/AddTodo'
 
 function App() {
   const [todos, setTodos] = useState([])
 
   const [retries, setRetries] = useState(0)
 
-  useEffect(() => {
+  const fetchTodos = () => {
     fetch(`${BASE_API_URL}/todos`)
       .then(resp => resp.json())
       .then(data => {
@@ -17,6 +18,10 @@ function App() {
           setRetries(retries + 1)
         }
       })
+  }
+
+  useEffect(() => {
+    fetchTodos()
   }, [retries])
 
   return (
@@ -27,6 +32,7 @@ function App() {
           <li key={todo._id}>{todo.title}</li>
         ))}
       </ul>
+      <AddTodo onAdd={fetchTodos} />
     </div>
   )
 }
