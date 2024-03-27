@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import './App.css'
 import AddTodo from './components/AddTodo'
 import { useFetchTodosQuery } from './services/todosApi'
