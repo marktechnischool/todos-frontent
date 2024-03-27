@@ -1,38 +1,28 @@
-import { useEffect, useState } from 'react'
 import './App.css'
 import AddTodo from './components/AddTodo'
+import useFetch from 'react-fetch-hook'
+import createTrigger from "react-use-trigger";
+import useTrigger from "react-use-trigger/useTrigger";
+
+const todosRefetch = createTrigger();
 
 function App() {
-  const [todos, setTodos] = useState([])
+  const requestNewTodosValue = useTrigger(todosRefetch);
 
-  const [retries, setRetries] = useState(0)
-
-  const fetchTodos = () => {
-    fetch(`${BASE_API_URL}/todos`)
-      .then(resp => resp.json())
-      .then(data => {
-        setTodos(data)
-      }).catch(err => {
-        console.error(err)
-        if (retries < 3) {
-          setRetries(retries + 1)
-        }
-      })
-  }
-
-  useEffect(() => {
-    fetchTodos()
-  }, [retries])
+  const { isLoading, data: todos } = useFetch(`${BASE_API_URL}/todos`, {
+    depends: [requestNewTodosValue],
+  });
 
   return (
     <div>
       <h1>Todo List</h1>
+      {isLoading && <p>Loading...</p>}
       <ul>
-        {todos.map(todo => (
+        {(todos || []).map(todo => (
           <li key={todo._id}>{todo.title}</li>
         ))}
       </ul>
-      <AddTodo onAdd={fetchTodos} />
+      <AddTodo onAdd={todosRefetch} />
     </div>
   )
 }
