@@ -1,31 +1,16 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useCreateTodoMutation } from "../services/todosApi";
 
-const AddTodo = ({ onAdd = () => { } }) => {
+const AddTodo = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
+    const [createUser] = useCreateTodoMutation()
+
     const onSubmit = (data) => {
-        const raw = JSON.stringify(data);
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        const requestOptions = {
-            method: "POST",
-            body: raw,
-            redirect: "follow",
-            headers: myHeaders
-        };
-
-        fetch(`${BASE_API_URL}/todos`, requestOptions)
-            .then((response) => {
-                if (response.ok) {
-                    reset();
-                    onAdd();
-                } else {
-                    console.error("Failed to add todo", response.statusText);
-                }
+        createUser(data).unwrap()
+            .then(() => {
+                reset();
             })
-            .catch((error) => console.error(error));
     }
 
     return <div>

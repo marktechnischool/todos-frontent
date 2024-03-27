@@ -1,17 +1,10 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 import AddTodo from './components/AddTodo'
-import useFetch from 'react-fetch-hook'
-import createTrigger from "react-use-trigger";
-import useTrigger from "react-use-trigger/useTrigger";
-
-const todosRefetch = createTrigger();
+import { useFetchTodosQuery } from './services/todosApi'
 
 function App() {
-  const requestNewTodosValue = useTrigger(todosRefetch);
-
-  const { isLoading, data: todos } = useFetch(`${BASE_API_URL}/todos`, {
-    depends: [requestNewTodosValue],
-  });
+  const { data: todos, isLoading } = useFetchTodosQuery()
 
   return (
     <div>
@@ -22,7 +15,7 @@ function App() {
           <li key={todo._id}>{todo.title}</li>
         ))}
       </ul>
-      <AddTodo onAdd={todosRefetch} />
+      <AddTodo />
     </div>
   )
 }
