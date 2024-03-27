@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import { Provider } from 'react-redux'
 import './index.css'
+import { store } from './store.js'
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -10,15 +12,15 @@ async function enableMocking() {
 
   const { worker } = await import('../mocks/browser');
 
-  // `worker.start()` returns a Promise that resolves
-  // once the Service Worker is up and ready to intercept requests.
   return worker.start();
 }
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </React.StrictMode>,
   )
 });
