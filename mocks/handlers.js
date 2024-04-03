@@ -21,4 +21,7 @@ export const handlers = [
             },
         ]);
     }),
+    http.post('http://mockapi.pzw/todos', () => {
+        return HttpResponse.json({});
+    })
 ];
