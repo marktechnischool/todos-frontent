@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 
-const AddTodo = ({ onAdd = () => { } }) => {
+const AddTodo = (props) => {
+    const { onAdd = () => { } } = props; // Dekonstrukcja obiektu props, jeśli nie ma onAdd to przypisz pustą funkcję
+    // const onAdd = props.onAdd || (() => { }); // Ten sam efekt co wyżej, innym sposobem
+
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {

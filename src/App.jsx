@@ -19,10 +19,10 @@ function App() {
       {isLoading && <p>Loading...</p>}
       <ul>
         {(todos || []).map(todo => (
-          <li key={todo._id}>{todo.title}</li>
+          <li key={todo._id}>{todo.title} <AddTodo todoId={todo._id} /> </li>
         ))}
       </ul>
-      <AddTodo onAdd={todosRefetch} />
+      <AddTodo optionalAddTitle="Makaron" onAdd={todosRefetch} />
     </div>
   )
 }
