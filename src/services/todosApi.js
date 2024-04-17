@@ -6,7 +6,7 @@ const todosApi = createApi({
   endpoints: (builder) => ({
     fetchTodos: builder.query({
       providesTags: ["Todos"],
-      query: () => "todos",
+      query: () => "todos", // http://localhost:3123/todos
     }),
     createTodo: builder.mutation({
       invalidatesTags: ["Todos"],
